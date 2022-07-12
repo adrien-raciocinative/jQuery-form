@@ -1,5 +1,7 @@
 $(document).ready(function () {
   $flag = true;
+
+  $psw = false;
   var inputs = $("input");
   var form = $("#myform");
   var name = $("#name");
@@ -36,20 +38,31 @@ $(document).ready(function () {
 
   // validate if password is equal to confirm password
 
+  // close modal
+  $(".conte").click(function () {
+    if ($(this).hasClass("modals")) {
+    } else {
+      $(this).css("display", "none");
+    }
+  });
+
   function validatePassAndCpass() {
     let pwdmt = $(".pswdmatch");
-    if (pass.val() != cpass.val()) {
-      pwdmt.html("Password does not match");
-      pwdmt.css("color", "red");
-      $(pass).css("border", "1px solid red");
-      $(cpass).css("border", "1px solid red");
-      $flag = false;
+    if ($(pass).length != 0 || $(cpass).length != 0) {
+      if (pass.val() != cpass.val()) {
+        pwdmt.html("Password does not match");
+        pwdmt.css("color", "red");
+        $(pass).css("border", "1px solid red");
+        $(cpass).css("border", "1px solid red");
+        $flag = false;
+      }
     } else {
       pwdmt.html("Password match");
       pwdmt.css("color", "green");
       $(pass).css("border", "1px solid green");
       $(cpass).css("border", "1px solid green");
     }
+    return $psw;
   }
 
   function valall(x) {
