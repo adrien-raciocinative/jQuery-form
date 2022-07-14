@@ -46,9 +46,25 @@ $(document).ready(function () {
     }
   });
 
+  function nospace(input) {
+    $(input).keydown(function (event) {
+      if (input.val().length === 0 && event.which === 32) {
+        event.preventDefault();
+      }
+    });
+  }
+  nospace(name);
+  nospace(email);
+  nospace(pass);
+  nospace(cpass);
+
+  $(name).blur(function () {
+    $(this).val($(this).val().trim());
+  });
+
   function validatePassAndCpass() {
     let pwdmt = $(".pswdmatch");
-    if ($(pass).length != 0 || $(cpass).length != 0) {
+    if ($(pass).length != 0 && $(cpass).length != 0) {
       if (pass.val() != cpass.val()) {
         pwdmt.html("Password does not match");
         pwdmt.css("color", "red");
@@ -64,6 +80,24 @@ $(document).ready(function () {
     }
     return $psw;
   }
+
+  // keyup email
+
+  $(email).keyup(function () {
+    if (validateEmails()) {
+      $(email).css("border", "1px solid green");
+      $(email).next().css("display", "inline-block");
+      $(email).next().html("email is valid");
+      $(email).next().css("color", "green");
+    } else {
+      $(email).css("border", "1px solid red");
+      $(email).next().css("display", "inline-block");
+      $(email).next().html("email is not valid");
+      $(email).next().css("color", "red");
+    }
+  });
+
+  // keyup email
 
   function valall(x) {
     let field = $(x).attr("id");
@@ -84,7 +118,6 @@ $(document).ready(function () {
   }
   valall(name);
   valall(pass);
-  valall(email);
   valall(cpass);
 
   // validatepassword
@@ -125,15 +158,13 @@ $(document).ready(function () {
   }
 
   // validateemail
-  function validatesEmail() {
-    if ($(email).val().length < 2) {
-      $(email).css("border", "1px solid red");
-      $(email).next().css("display", "inline-block");
-      $flag = false;
+  function validateEmails() {
+    var emailtest = $("#email").val();
+    var reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+    if (reg.test(emailtest)) {
+      return true;
     } else {
-      $(email).css("border", "1px solid green");
-      $(email).next().css("display", "none");
-      $flag = true;
+      return false;
     }
   }
 
@@ -154,9 +185,9 @@ $(document).ready(function () {
     let modal = $(".modals");
     e.preventDefault();
     validateName();
-    validatesEmail();
     validatesPass();
     validatescPass();
+    validateEmails();
     validatePassAndCpass();
     console.log($flag);
 
