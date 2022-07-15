@@ -1,42 +1,10 @@
 $(document).ready(function () {
-  $flag = true;
-
-  $psw = false;
   var inputs = $("input");
   var form = $("#myform");
   var name = $("#name");
   var email = $("#email");
   var pass = $("#pass");
   var cpass = $("#cpass");
-
-  // remove space in forms
-  // function noSpace(field) {
-  //   $(field).change(function () {
-  //     $(this).val($(this).val().trim());
-  //   });
-  //   console.log(this);
-  // }
-  // noSpace(name);
-  // noSpace(pass);
-  // noSpace(email);
-  // noSpace(cpass);
-
-  // // on keyup remove space
-  // function trimSpace(x) {
-  //   let field = $(x).attr("id");
-  //   $(x).blur(function () {
-  //     if (!/\S/.test($(x).val())) {
-  //       alert("form can not be only space");
-  //     } else {
-  //     }
-  //   });
-  // }
-
-  // trimSpace(name);
-
-  // validates form on keyup
-
-  // validate if password is equal to confirm password
 
   // close modal
   $(".conte").click(function () {
@@ -46,6 +14,7 @@ $(document).ready(function () {
     }
   });
 
+  // prevent spaces to be entered at the begining of fields
   function nospace(input) {
     $(input).keydown(function (event) {
       if (input.val().length === 0 && event.which === 32) {
@@ -58,47 +27,51 @@ $(document).ready(function () {
   nospace(pass);
   nospace(cpass);
 
-  $(name).blur(function () {
-    $(this).val($(this).val().trim());
-  });
+  // trimSpace(inout); remove spaces on all the end and all input on blur(after fucus on the filed is loose)
+  function blurTrim(input) {
+    $(input).blur(function () {
+      $(this).val($(this).val().trim());
+    });
+  }
+  blurTrim(name);
+  blurTrim(email);
+  blurTrim(pass);
+  blurTrim(cpass);
+
+  // validate if password is equal to confirm password
 
   function validatePassAndCpass() {
+    var vraipass = pass.val();
+    var vraicpass = cpass.val();
     let pwdmt = $(".pswdmatch");
-    if ($(pass).length != 0 && $(cpass).length != 0) {
-      if (pass.val() != cpass.val()) {
+
+    if (vraipass.length == 0 || vraicpass.length == 0) {
+      pwdmt.html("Password does not match");
+      pwdmt.css("color", "red");
+      $(pass).css("border", "1px solid red");
+      $(cpass).css("border", "1px solid red");
+
+      return false;
+    } else {
+      if (vraipass == vraicpass) {
+        pwdmt.html("Password match");
+        pwdmt.css("color", "green");
+        $(pass).css("border", "1px solid green");
+        $(cpass).css("border", "1px solid green");
+        return true;
+      } else {
         pwdmt.html("Password does not match");
         pwdmt.css("color", "red");
         $(pass).css("border", "1px solid red");
         $(cpass).css("border", "1px solid red");
-        $flag = false;
+        return false;
       }
-    } else {
-      pwdmt.html("Password match");
-      pwdmt.css("color", "green");
-      $(pass).css("border", "1px solid green");
-      $(cpass).css("border", "1px solid green");
+
+      return true;
     }
-    return $psw;
   }
 
-  // keyup email
-
-  $(email).keyup(function () {
-    if (validateEmails()) {
-      $(email).css("border", "1px solid green");
-      $(email).next().css("display", "inline-block");
-      $(email).next().html("email is valid");
-      $(email).next().css("color", "green");
-    } else {
-      $(email).css("border", "1px solid red");
-      $(email).next().css("display", "inline-block");
-      $(email).next().html("email is not valid");
-      $(email).next().css("color", "red");
-    }
-  });
-
-  // keyup email
-
+  // validate name and paswords feilds to be more than 2 in lenght
   function valall(x) {
     let field = $(x).attr("id");
     $(x).keyup(function () {
@@ -125,11 +98,13 @@ $(document).ready(function () {
     if ($(pass).val().length < 2) {
       $(pass).css("border", "1px solid red");
       $(pass).next().css("display", "inline-block");
-      $flag = false;
+
+      return false;
     } else {
       $(pass).css("border", "1px solid green");
       $(pass).next().css("display", "none");
-      $flag = true;
+
+      return true;
     }
   }
 
@@ -138,26 +113,49 @@ $(document).ready(function () {
     if ($(cpass).val().length < 2) {
       $(cpass).css("border", "1px solid red");
       $(cpass).next().css("display", "inline-block");
-      $flag = false;
+
+      return false;
     } else {
       $(cpass).css("border", "1px solid green");
       $(cpass).next().css("display", "none");
-      $flag = true;
-    }
-  }
-  function validatesPass() {
-    if ($(pass).val().length < 2) {
-      $(pass).css("border", "1px solid red");
-      $(pass).next().css("display", "inline-block");
-      $flag = false;
-    } else {
-      $(pass).css("border", "1px solid green");
-      $(pass).next().css("display", "none");
-      $flag = true;
+
+      return true;
     }
   }
 
   // validateemail
+
+  // display notice message if fields empty on submit
+  function emptyEmail() {
+    if ($(email).val().length < 2) {
+      $(email).css("border", "1px solid red");
+      $(email).next().css("display", "inline-block");
+
+      return false;
+    } else {
+      $(email).css("border", "1px solid green");
+      $(email).next().css("display", "none");
+
+      return true;
+    }
+  }
+
+  // keyup email
+  $(email).keyup(function () {
+    if (validateEmails()) {
+      $(email).css("border", "1px solid green");
+      $(email).next().css("display", "inline-block");
+      $(email).next().html("email is valid");
+      $(email).next().css("color", "green");
+    } else {
+      $(email).css("border", "1px solid red");
+      $(email).next().css("display", "inline-block");
+      $(email).next().html("email is not valid");
+      $(email).next().css("color", "red");
+    }
+  });
+
+  // regular expressiong to check for email validity
   function validateEmails() {
     var emailtest = $("#email").val();
     var reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
@@ -173,27 +171,35 @@ $(document).ready(function () {
     if ($(name).val().length < 2) {
       $(name).css("border", "1px solid red");
       $(name).next().css("display", "inline-block");
-      $flag = false;
+
+      return false;
     } else {
       $(name).css("border", "1px solid green");
       $(name).next().css("display", "none");
-      $flag = true;
+
+      return true;
     }
   }
 
+  // submit button code
   $(form).submit(function (e) {
     let modal = $(".modals");
     e.preventDefault();
-    validateName();
-    validatesPass();
-    validatescPass();
-    validateEmails();
-    validatePassAndCpass();
-    console.log($flag);
 
-    if ($flag === true) {
+    if (validateEmails() && validateName && validatePassAndCpass()) {
+      // console.log("valid");
       modal.css("display", "block");
+    } else {
+      // console.log(validateName());
+      // console.log(validateEmails());
+      // console.log(validatePassAndCpass());
+      // console.log("invalid");
+      validateName();
+      validatesPass();
+      validatescPass();
+      validateEmails();
+      validatePassAndCpass();
+      emptyEmail();
     }
-    return $flag;
   });
 });
