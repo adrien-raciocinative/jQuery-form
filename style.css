@@ -39,6 +39,7 @@ body {
 .wrapper .input_field input[type="password"] {
   width: 100%;
   padding: 10px;
+  border: 1px solid #000;
 }
 
 .wrapper input[type="submit"] {
@@ -119,6 +120,16 @@ h5.usercheck.yo {
 .conte {
   width: 100%;
   height: 100%;
+}
+.input_field.fd {
+  min-height: 54px;
+  position: relative;
+}
+
+.show-hide {
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }
 /* 
 * Prevents issues when the parent creates a 

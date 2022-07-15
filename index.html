@@ -1,4 +1,3 @@
-HTML CSS JSResult Skip Results Iframe
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -12,9 +11,6 @@ HTML CSS JSResult Skip Results Iframe
   <body>
     <div class="wrapper">
       <h2 id="hid">Registration Form</h2>
-      <div id="success" class="suc">
-        <h2>Form has been submitted successfully!<br /></h2>
-      </div>
       <div id="error_message"></div>
       <form id="myform" name="form" action="/index.html?" method="get">
         <div class="input_field">
@@ -25,14 +21,16 @@ HTML CSS JSResult Skip Results Iframe
           <input class="email" type="text" placeholder="Email" id="email" />
           <h5 class="usercheck">**Email is missing</h5>
         </div>
-        <div class="input_field">
+        <div class="input_field fd">
           <input
             class="password"
             type="password"
             placeholder="Password"
             id="pass"
           />
+       
           <h5 class="usercheck">**password is missing</h5>
+          <div class="show-hide"><input type='checkbox' id='toggle' value='0' >&nbsp; <span id='toggleText'>Show</span></td></div>
         </div>
         <div class="input_field">
           <input

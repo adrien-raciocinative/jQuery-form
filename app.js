@@ -6,6 +6,25 @@ $(document).ready(function () {
   var pass = $("#pass");
   var cpass = $("#cpass");
 
+  $("#toggle").change(function () {
+    // Check the checkbox state
+    if ($(this).is(":checked")) {
+      // Changing type attribute
+      pass.attr("type", "text");
+      cpass.attr("type", "text");
+
+      // Change the Text
+      $("#toggleText").text("Hide");
+    } else {
+      // Changing type attribute
+      pass.attr("type", "password");
+      cpass.attr("type", "password");
+
+      // Change the Text
+      $("#toggleText").text("Show");
+    }
+  });
+
   // close modal
   $(".conte").click(function () {
     if ($(this).hasClass("modals")) {
@@ -46,7 +65,6 @@ $(document).ready(function () {
     let pwdmt = $(".pswdmatch");
 
     if (vraipass.length == 0 || vraicpass.length == 0) {
-      pwdmt.html("Password does not match");
       pwdmt.css("color", "red");
       $(pass).css("border", "1px solid red");
       $(cpass).css("border", "1px solid red");
@@ -85,7 +103,7 @@ $(document).ready(function () {
       } else {
         $(x).css("border", "1px solid green");
         $(x).next().css("color", "green");
-        $(x).next().html("nice job dude");
+        $(x).next().html("fields is correct");
       }
     });
   }
@@ -133,9 +151,6 @@ $(document).ready(function () {
 
       return false;
     } else {
-      $(email).css("border", "1px solid green");
-      $(email).next().css("display", "none");
-
       return true;
     }
   }
@@ -162,6 +177,10 @@ $(document).ready(function () {
     if (reg.test(emailtest)) {
       return true;
     } else {
+      $(email).css("border", "1px solid red");
+      $(email).next().css("display", "inline-block");
+      $(email).next().html("email is not valid");
+      $(email).next().css("color", "red");
       return false;
     }
   }
